@@ -1,7 +1,7 @@
 # Algorithm
 
 
-* algoritm study
+**algoritm study**
 
   2019.03.15 ~
 
