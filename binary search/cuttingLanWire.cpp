@@ -15,8 +15,8 @@ int main()
 
 	sort(lan, lan + k);
 
-	int min = 0;
-	int max = lan[0] * 2;
+	long long min = 0;
+	long long max = 2147483647;
 	int result;
 
 	while (min <= max) {
@@ -24,11 +24,7 @@ int main()
 		int count = 0;
 		for (int i = 0; i < k; i++) {
 			// 랜선 자르기
-			int temp = lan[i];
-			while (temp-mid >= 0) {
-				count++;
-				temp -= mid;
-			}
+			count += lan[i] / mid;
 		}
 
 		if (count >= n) {
@@ -46,3 +42,10 @@ int main()
 	return 0;
 
 }
+
+
+/*
+	hidden test case
+	1 1
+	2147483647 (2^31-1) -> long long의 최대 값
+*/
