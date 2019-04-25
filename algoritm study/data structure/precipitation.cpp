@@ -28,29 +28,48 @@ public:
 	}
 
 	void printResult() {
+	
+		int flag = 0;
 
-		result = "true";
+		if (info_v.at(0).first < x ||
+			info_v.at(info_v.size() - 1).first > y)
+			flag++;
 
-		// Y년도의 강수량과 X년도의 강수량 비교
-		if (y_precipitation == 0 || x_precipitation == 0)
-			result = "maybe";
-
-		for (int i = 0; i < info_v.size(); i++) {
-			// Z년도의 강수량 존재 X
-			if (info_v.at(i).second == 0)
-				result = "maybe";
-			// Y년도 이후 X년도 전까지의 강수량 비교
-			if (info_v.at(i).first > y && info_v.at(i).first <x) {
-				if (info_v.at(i).second >= x_precipitation
-					&& x_precipitation != 0) {
-					result = "false";
-					break;
+		for (int i = 0; i < info_v.size(); i++){
+			// 모든 년도들의 강수량에 대한 정보가 알려져 있음
+			if (info_v.at(i).first >= y && info_v.at(i).first <= x) {
+				if (info_v.at(i).second == 0) {
+					//result = "maybe";
+					flag++;
 				}
+				if (info_v.at(i).second >= x_precipitation
+					&& info_v.at(i).first != y && info_v.at(i).first != x) {
+					result = "false";
+					cout << result << endl;
+					return;
+				}
+			
 			}
 		}
-		cout << result << endl;
 
+		if (y_precipitation < x_precipitation) {
+			if (y_precipitation != 0) {
+				result = "false";
+				cout << result << endl;
+				return;
+			}
+			else
+				flag++;
+		}
+		if (flag == 0)
+			result = "true";
+		else
+			result = "maybe";
+
+		cout << result << endl;
 	}
+
+
 };
 
 int main()
