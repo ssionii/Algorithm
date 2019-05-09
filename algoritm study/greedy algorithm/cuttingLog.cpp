@@ -8,50 +8,69 @@ int bigger(int a, int b) {
 	return a >= b ? a : b;
 }
 
-pair<int, int> solution(vector<int> loc, int L, int C) {
-	int left = 1;
-	int right = L;
 
-	int length;
-	pair <int, int> result;
+pair<long long, long long> solution(vector<int> loc, long long L, int C) {
+	long long left = 1;
+	long long right = L;
 
-	int now = L;
+	long long length;
+	pair <long long, long long> result;
+	vector <long long> piece;
+
 	while (left <= right) {
-		int mid = (left + right) / 2;
-		int start = 0, end = L;
+		long long mid = (left + right) / 2;
+		long long start = 0, end = L;
 		int cut = 0;
-		
+
 		for (int i = 0; i < loc.size(); i++) {
 
 			length = bigger(loc.at(i) - start, end - loc.at(i));
 
-			if (length >= mid && length <= now) {
+			if (length <= mid) {
 				cut++;
 				start = loc.at(i);
-				now = length;
-				if (cut == 1)
+
+				if (cut == 1) {
 					result.second = start;
-				if (cut <= C)
-					result.first = length;
+					piece.clear();
+					piece.push_back(0);
+				}
+				piece.push_back(loc.at(i));
+
+				if (cut == C)
+					break;
 			}
 
 		}
 
-		if (cut > C) {
+		if (cut < C) {
 			left = mid + 1;
 
 		}
 		else {
 			right = mid - 1;
 		}
+
+		
 	}
 
+
+	result.first = 0;
+	piece.push_back(L);
+	long long temp;
+	for (int i = piece.size()-1; i > 0; i--) {
+		temp = piece.at(i) - piece.at(i - 1);
+		if (result.first < temp)
+			result.first = temp;
+	}
+	
 	return result;
 }
 
 int main()
 {
-	int L, K, C;
+	long long L;
+	int K, C;
 	cin >> L >> K >> C;
 
 	vector <int> loc;
