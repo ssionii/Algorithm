@@ -4,7 +4,7 @@
 
 using namespace std;
 
-char input[500][2000];
+char input[2000][500];
 string binaryArr[16] = {
         "0000", "0001","0010","0011",
         "0100","0101","0110","0111",
@@ -85,6 +85,8 @@ int main() {
 
         int result = 0;
 
+        input[2000][500] = {};
+
         // 입력 받고, 암호 코드를 포함한 행 찾기
         for(int n = 0; n < N; n++){
             for(int m = 0; m < M; m++){
@@ -122,7 +124,7 @@ int main() {
             for(int l = binaryCodes.at(i).size() - 1; l >=0; l--){
 
                 if(binaryCodes.at(i)[l] == '1'){
-                    while(binaryCodes.at(i)[l - 56*codeLength] != '0'){
+                    while(l - 56*codeLength > 0 &&binaryCodes.at(i)[l - 56*codeLength] != '0'){
                         codeLength++;
                     }
 
@@ -141,29 +143,24 @@ int main() {
                         for(int index = 0; index < 8; index ++){
                             passCode[index] = getNumFromBinary(passCodes.back().substr(index*7*codeLength,7*codeLength), codeLength);
 
-                            if(index % 2 == 0) { // 짝수
+                            if(index % 2 == 1) { // 홀수
                                 sum += passCode[index];
-                            }else if((index % 2 == 1) && index != 7){ // 홀수
+                            }else if(index % 2 == 0){ // 짝수
                                 sum += passCode[index]*3;
-                            }else if(index == 7){
-                                sum += passCode[index];
                             }
 
-                            cout << passCode[index] <<" ";
                         }
 
                         // 검증 코드 확인
-                        if(sum % 10 != 0){
+                        if(sum % 10 == 0){
+                            /*
                             sum -= passCode[7];
                             int lastCode = 10 - (sum%10);
-                            passCode[7] = lastCode;
-                        }
-
-                        // 결과 출력
-                        for(int index = 0; index < 8; index ++){
-                            cout << passCode[index] <<" ";
-                            resultTemp +=passCode[index];
-                            result = resultTemp;
+                            passCode[7] = lastCode;*/
+                            for(int index = 0; index < 8; index ++){
+                                resultTemp +=passCode[index];
+                                result = resultTemp;
+                            }
                         }
 
                     }
@@ -177,4 +174,6 @@ int main() {
 
         cout << "#" << test_num << " " << result<<endl;
     }
+
+    return 0;
 }
