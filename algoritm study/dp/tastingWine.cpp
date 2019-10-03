@@ -3,46 +3,27 @@
 
 using namespace std;
 
-long wine[10001];
-long sum[10001];
-bool isFull[10001] = {false};
+long p[10001];
+long dp[10001];
 
 int N;
 
 int main() {
-
     cin >> N;
 
-    for(int i = 0; i < N; i++){
-        cin >> wine[i];
+    for(int i = 1; i <= N; i++){
+        cin >> p[i];
     }
 
-    sum[0] = wine[0]; isFull[0] = false;
+    dp[1] = p[1];
+    if(N > 0)
+        dp[2] = p[2] + p[1];
 
-    for(int i = 1; i < N; i++) {
-        if (isFull[i - 1] && i - 3 >= 0) {
-            if(wine[i] + wine[i - 1] + sum[i - 3] >= wine[i] + sum[i - 2]){
-                sum[i]+=wine[i] + wine[i - 1] + sum[i - 3];
-                isFull[i] = true;
-            }else{
-                sum[i]+= wine[i] + sum[i - 2];
-            }
-        }else if(isFull[i-1] && i - 3 < 0){
-            sum[i] = max(wine[i]+wine[i-1],wine[i]+sum[i-2]);
-            isFull[i] = true;
-        }else if (!isFull[i - 1]) {
-            sum[i] = wine[i] + sum[i - 1];
-            isFull[i] = true;
-        }
-
+    for(int i = 3; i <= N; i++){
+        dp[i] = max(dp[i-1], max(dp[i-2]+p[i], dp[i-3] + p[i-1] + p[i]));
     }
 
-    for(int i = 0; i < N-1; i++)
-        cout << sum[i] << " ";
+    cout << dp[N];
 
-    if(N > 1) {
-        cout << max(sum[N - 1], sum[N - 2]) << endl;
-    }else
-        cout <<sum[0]<<endl;
     return 0;
 }
