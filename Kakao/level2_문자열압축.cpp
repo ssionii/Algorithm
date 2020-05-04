@@ -9,17 +9,20 @@ using namespace std;
 
 int solution(string s) {
 
-    int catNum = s.size() / 2;
-    int index = 0, count = 1;
-    string compStr;
-    string temp = "", result = s;
-    for(int l = 1; l <= catNum; l++){
+    string result = s;
+
+    for(int l = 1; l <= s.size() / 2; l++){
+        int index = 0;
+        string temp = "";
         while(index < s.size()) {
-            compStr = s.substr(index, l);
+            int count = 1;
+
+            string compStr = s.substr(index, l);
             if(compStr.size() < l){
                 temp += compStr;
                 break;
             }
+
             index += l;
 
             while (compStr == s.substr(index, l)) {
@@ -27,20 +30,11 @@ int solution(string s) {
                 index += l;
             }
 
-            if(count != 1){
-                temp += to_string(count) + compStr;
-            }else{
-                temp += compStr;
-            }
-
-            count = 1;
+            if(count != 1) temp += to_string(count) + compStr;
+            else temp += compStr;
         }
         if(result.size() > temp.size())
             result = temp;
-
-        index = 0;
-        temp = "";
-
     }
 
     return result.size();
