@@ -59,11 +59,11 @@ vector<int> solution(int n) {
 
     return answer;
 }
-
-int main(){
-
-    solution(3);
-
-
-    return 0;
-}
+//
+//int main(){
+//
+//    solution(3);
+//
+//
+//    return 0;
+//}
